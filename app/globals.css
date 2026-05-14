@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-background: #0b0f1a;
+  --color-surface: #111827;
+  --color-surface-2: #1a2235;
+  --color-border: rgba(255,255,255,0.07);
+  --color-border-subtle: rgba(255,255,255,0.04);
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #475569;
+  --color-accent: #6366f1;
+  --color-accent-2: #8b5cf6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0b0f1a;
+  color: #f1f5f9;
+  font-family: var(--font-geist-sans, system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-sidebar {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Mesh gradient background */
+.mesh-bg {
+  background-color: #0b0f1a;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(99,102,241,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139,92,246,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 60% at 50% 50%, rgba(16,185,129,0.03) 0%, transparent 60%);
+}
+
+/* Card glow on hover */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(99,102,241,0.12), 0 1px 0 rgba(255,255,255,0.06) inset;
+}
+
+/* Progress bar animation */
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: var(--progress-width); }
+}
+.progress-bar {
+  animation: progressFill 0.8s ease-out forwards;
+}
+
+/* Skeleton loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
