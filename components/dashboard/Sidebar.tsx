@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   CheckSquare,
@@ -18,13 +20,13 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard", active: true },
-  { icon: CheckSquare, label: "Tasks", href: "/tasks" },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  { icon: CheckSquare, label: "Tasks", href: "/dashboard/tasks" },
   { icon: FolderOpen, label: "Projects", href: "/projects" },
-  { icon: BarChart2, label: "Analytics", href: "/analytics" },
+  { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },
   { icon: Calendar, label: "Calendar", href: "/calendar" },
   { icon: FileText, label: "Reports", href: "/reports" },
-  { icon: MessageSquare, label: "Messages", href: "/messages", badge: 3 },
+  { icon: MessageSquare, label: "Messages", href: "/dashboard/messages", badge: 3 },
 ];
 
 const bottomItems = [
@@ -35,17 +37,17 @@ const bottomItems = [
 interface NavItemProps {
   icon: React.ElementType;
   label: string;
+  href: string;
   active?: boolean;
   badge?: number;
   collapsed: boolean;
-  onClick?: () => void;
 }
 
-function NavItem({ icon: Icon, label, active, badge, collapsed }: NavItemProps) {
+function NavItem({ icon: Icon, label, href, active, badge, collapsed }: NavItemProps) {
   return (
     <li>
-      <a
-        href="#"
+      <Link
+        href={href}
         className={cn(
           "relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150 group",
           active
@@ -63,9 +65,7 @@ function NavItem({ icon: Icon, label, active, badge, collapsed }: NavItemProps) 
             active ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-300"
           )}
         />
-        {!collapsed && (
-          <span className="truncate">{label}</span>
-        )}
+        {!collapsed && <span className="truncate">{label}</span>}
         {!collapsed && badge && (
           <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-500/20 px-1 text-xs font-semibold text-indigo-300">
             {badge}
@@ -74,13 +74,19 @@ function NavItem({ icon: Icon, label, active, badge, collapsed }: NavItemProps) 
         {collapsed && badge && (
           <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-indigo-400" />
         )}
-      </a>
+      </Link>
     </li>
   );
 }
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = usePathname();
+
+  function isActive(href: string) {
+    if (href === "/dashboard") return pathname === "/dashboard";
+    return pathname === href || pathname.startsWith(href + "/");
+  }
 
   return (
     <aside
@@ -116,7 +122,12 @@ export function Sidebar() {
         )}
         <ul className="space-y-0.5">
           {navItems.map((item) => (
-            <NavItem key={item.label} {...item} collapsed={collapsed} />
+            <NavItem
+              key={item.label}
+              {...item}
+              active={isActive(item.href)}
+              collapsed={collapsed}
+            />
           ))}
         </ul>
 
@@ -128,7 +139,12 @@ export function Sidebar() {
           )}
           <ul className="space-y-0.5">
             {bottomItems.map((item) => (
-              <NavItem key={item.label} {...item} collapsed={collapsed} />
+              <NavItem
+                key={item.label}
+                {...item}
+                active={isActive(item.href)}
+                collapsed={collapsed}
+              />
             ))}
           </ul>
         </div>
