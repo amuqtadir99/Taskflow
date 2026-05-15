@@ -22,16 +22,16 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: CheckSquare, label: "Tasks", href: "/dashboard/tasks" },
-  { icon: FolderOpen, label: "Projects", href: "/projects" },
+  { icon: FolderOpen, label: "Projects", href: "/dashboard/projects" },
   { icon: BarChart2, label: "Analytics", href: "/dashboard/analytics" },
-  { icon: Calendar, label: "Calendar", href: "/calendar" },
-  { icon: FileText, label: "Reports", href: "/reports" },
+  { icon: Calendar, label: "Calendar", href: "/dashboard/calendar" },
+  { icon: FileText, label: "Reports", href: "/dashboard/reports" },
   { icon: MessageSquare, label: "Messages", href: "/dashboard/messages", badge: 3 },
 ];
 
 const bottomItems = [
-  { icon: Settings, label: "Settings", href: "/settings" },
-  { icon: HelpCircle, label: "Help & Support", href: "/help" },
+  { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+  { icon: HelpCircle, label: "Help & Support", href: "/dashboard/help" },
 ];
 
 interface NavItemProps {
@@ -48,6 +48,7 @@ function NavItem({ icon: Icon, label, href, active, badge, collapsed }: NavItemP
     <li>
       <Link
         href={href}
+        aria-current={active ? "page" : undefined}
         className={cn(
           "relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150 group",
           active
@@ -114,7 +115,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex flex-1 flex-col overflow-y-auto px-2 py-4">
+      <nav aria-label="Main navigation" className="flex flex-1 flex-col overflow-y-auto px-2 py-4">
         {!collapsed && (
           <div className="mb-2 px-2 text-[10px] font-semibold uppercase tracking-widest text-slate-600">
             Main Menu
